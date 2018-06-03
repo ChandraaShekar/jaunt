@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include partials/head %>
+</head>
+<body>
+<% include partials/header-another %>
+    <!-- END nav -->
+
+<section class="probootstrap_section">
+      <div class="container" style="width:700px;margin:0px auto;">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Track all your Friend's </h2>
+          </div>
+        </div>  
+      <div id='myMap' style='width: 700px; height: 500px;'></div>
+      <br>
+        <button class="btn btn-primary" onclick="getAddress()">Track</button> <br>
+        <h3 id="demo"></h3>
+      <br> <br>
+      </div>
+     </section> 
+        <script type='text/javascript'>
+            var addressLoc;
+            var x = document.getElementById("demo");
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(locationHandler);
+                } else { 
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
+            function locationHandler(position)
+                {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+            }
+
+            function loadMapScenario() {
+                var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                  center: new Microsoft.Maps.Location(17.4295267,78.34105),
+                    zoom: 17
+                });
+                var center = map.getCenter();
+                var infobox = new Microsoft.Maps.Infobox(center, { title: 'Your Location'});
+                infobox.setMap(map);
+                map.entities.push(Microsoft.Maps.TestDataGenerator.getPushpins(4, map.getBounds()));
+                Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+                    var searchManager = new Microsoft.Maps.Search.SearchManager(map);
+                    var reverseGeocodeRequestOptions = {
+                        location: new Microsoft.Maps.Location(17.4295267,78.34105),
+                        //location: new Microsoft.Maps.Location(lat,lng),
+                        callback: function (answer, userData) {
+                            map.setView({ bounds: answer.bestView });
+                            map.entities.push(new Microsoft.Maps.Pushpin(reverseGeocodeRequestOptions.location));
+                            addressLoc = answer.address.formattedAddress;
+                        }
+                    };
+                    searchManager.reverseGeocode(reverseGeocodeRequestOptions);
+                });           
+            }
+
+            function getAddress(){
+                document.getElementById("demo").innerHTML = addressLoc;
+            }
+        </script>
+
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AnmYhdSRiz-1J2hMYKy1o3QXueTrovbII0GUIcpASD_W-6nNLqKcxU3OhpJhWTIj&callback=loadMapScenario' async defer></script>
+        
+
+
+		<% include partials/footer %>
+    <% include partials/scripts %>
+	
+</body>
+</html>
+
+ 

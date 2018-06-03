@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include partials/head %>
+</head>
+<body>
+    <% include partials/header-another %>
+    <section class="probootstrap_section">
+        <div class="container" style="width:700px;margin:0px auto;">
+      <div class="row text-center mb-5 probootstrap-animate">
+        <div class="col-md-12">
+          <h2 class="display-4 border-bottom probootstrap-section-heading">Settings</h2>
+        </div>
+      </div>
+      <div class="form">
+          <form method="post">
+              <h1>Username:</h1>
+          <label for="username">Username:</label>
+          <input type="text" placeholder="Username" name="username-edit" id="username" value="<%= user_name %>" class="form-control"><br>
+          <button name="username-submit" class="btn-primary btn-sm">Change Username</button><br>
+          <h1>Password: </h1>
+          <label for="old-password">Old Password: </label>
+          <input type="password" placeholder="Old Password" id="old-password" class="form-control">
+          <label for="new-password">New Password: </label>
+          <input type="password" placeholder="New Password" id="new-password" class="form-control">
+          <label for="confirm-password">Confirm Password: </label>
+          <input type="password" placeholder="Confirm Password" id="confirm-password" class="form-control"><br>
+            <button name="password-change" class="btn-primary sm-btn">Change Password</button>
+        </div>
+
+    </div>
+    </section>
+     
+	<% include partials/footer %>
+    <% include partials/scripts %>
+	
+</body>
+</html>

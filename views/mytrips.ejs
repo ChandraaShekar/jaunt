@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include partials/head %>
+</head>
+<body>
+    <% include partials/header-another %>
+    <!-- END nav -->
+
+<section class="probootstrap_section">
+      <div class="container" style="width:700px;margin:0px auto;">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">My Trips</h2>
+          </div>
+        </div>
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h3 class="display-4 border-bottom probootstrap-section-heading">Planned Trips</h3>
+          </div>
+        </div>
+        <button type="button" class="btn-sm btn-primary">+ Create Trip</button>
+        <div class="row probootstrap-animate">
+          <p></p>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Trip Name</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+
+                <th scope="row"><a href="/trip-mates?trip=<%= trips[0].code %>"><%= trips[0].trip_name %></a></th>
+                <th scope="row">http://localhost:3000/add-me?code=<%= trips[0].code %></th>
+                <% if(trips[0].status == 'admin'){ %>
+                  <td><a href="/start-trip?trip=<%= trips[0].code %>" class="btn-sm btn-primary">Start Trip</a></td>
+                  <% }else{ %>
+                    <td><a href="#" class="btn-sm btn-primary"> Trip</a></td>
+
+                  <% } %>            
+                  </tr>
+            </tbody>
+            </table> 
+         </div>  
+       </div>
+     </section>
+
+
+<section class="probootstrap_section">
+      <div class="container" style="width:700px;margin:0px auto;">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h3 class="display-4 border-bottom probootstrap-section-heading">Past Trips</h3>
+          </div>
+        </div>
+        
+        <div class="row probootstrap-animate">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Trip Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <th scope="row"> No trips found!</th>
+                </tr>
+            </tbody>
+            </table> 
+         </div>  
+       </div>
+     </section>
+
+ 
+	<% include partials/footer %>
+    <% include partials/scripts %>
+	
+</body>
+</html>         

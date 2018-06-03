@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include partials/head %>
+    <meta charset="utf-8" />
+    <script type='text/javascript'>
+    var map, watchId, userPin, directionsManager, routePath;
+    function GetMap() {
+        map = new Microsoft.Maps.Map('#myMap', {});
+        //Load the directions and spatial math modules.
+        Microsoft.Maps.loadModule(['Microsoft.Maps.Directions'], function () {
+            //Create an instance of the directions manager.
+            directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+            //Define direciton options that you want to use, that won't be reset the next time a route is calculated.
+            //Set the request options that avoid highways and uses kilometers.
+            directionsManager.setRequestOptions({
+                distanceUnit: Microsoft.Maps.Directions.DistanceUnit.km,
+                routeAvoidance: [Microsoft.Maps.Directions.RouteAvoidance.avoidLimitedAccessHighway]
+            });
+            //Make the route line thick and green.
+            directionsManager.setRenderOptions({
+                drivingPolylineOptions: {
+                    strokeColor: 'green',
+                    strokeThickness: 6
+                }
+            });
+            Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', directionsUpdated);
+        });
+    }
+    function startTracking() {
+        //Add a pushpin to show the user's location.
+        userPin = new Microsoft.Maps.Pushpin(map.getCenter(), { visible: false });
+        map.entities.push(userPin);
+        //Watch the users location.
+        watchId = navigator.geolocation.watchPosition(usersLocationUpdated);
+    }
+    function usersLocationUpdated(position) {
+        var loc = new Microsoft.Maps.Location(
+            position.coords.latitude,
+            position.coords.longitude);
+        //Update the user pushpin.
+        userPin.setLocation(loc);
+        userPin.setOptions({ visible: true });
+        //Center the map on the user's location.
+        map.setView({ center: loc });
+        //Calculate a new route if one hasn't been calculated or if the users current location is further than 50 meters from the current route.
+        if (!routePath || Microsoft.Maps.SpatialMath.distance(loc, routePath) > 50) {
+            calculateRoute(loc, document.getElementById('detinationTbx').value);
+        }
+    }
+    function stopTracking() {
+        // Cancel the geolocation updates.
+        navigator.geolocation.clearWatch(watchId);
+        //Remove the user pushpin.
+        map.entities.clear();
+        clearDirections();
+    }
+    function calculateRoute(userLocation, destination) {
+        clearDirections();
+        //Create waypoints to route between.
+        directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ location: userLocation }));
+        directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ address: destination }));     
+        //Calculate directions.
+        directionsManager.calculateDirections();
+    }
+    function directionsUpdated(e) {
+        //When the directions are updated, get a polyline for the route path to perform calculations against in the future.
+        var route = directionsManager.getCurrentRoute();
+        if (route && route.routePath && route.routePath.length > 0) {
+            routePath = new Microsoft.Maps.Polyline(route.routePath);
+        }
+    }
+    function clearDirections() {
+        //Clear directions waypoints and display without clearing it's options.
+        directionsManager.clearDisplay();
+        var wp = directionsManager.getAllWaypoints();
+        if (wp && wp.length > 0) {
+            for (var i = 0; i < wp.length; i++) {
+                directionsManager.removeWaypoint(wp[i]);
+            }
+        }
+        routePath = null;
+    }
+    </script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=AnmYhdSRiz-1J2hMYKy1o3QXueTrovbII0GUIcpASD_W-6nNLqKcxU3OhpJhWTIj' async defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg probootstrap_navbar" id="probootstrap-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Jaunt</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#probootstrap-menu" aria-controls="probootstrap-menu" aria-expanded="false" aria-label="Toggle navigation">
+          <span><i class="ion-navicon"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="probootstrap-menu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item "><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item "><a class="nav-link" href="/mytrips">My Trips</a></li>
+            <li class="nav-item active"><a class="nav-link" href="/currenttrip">Current Trip</a></li>
+            <li class="nav-item"><a class="nav-link" href="/planatrip">Plan a Trip</a></li>
+             <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
+             <li class="nav-item"><a class="nav-link" href="/user"><%= user_name %></a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+
+    <section class="probootstrap_section">
+      <div class="container" style="width:650px;margin: 0px auto;">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Get Directions</h2>
+          </div>
+        </div>  
+        <div id="myMap" style="position:relative;width:600px;height:600px;"></div>
+            <br />
+            <label>Destination: </label><input type="text" id="detinationTbx" value="Warangal" />
+            <br />
+            <br />
+            <input type="button" value="Start Continuous Tracking" onclick="startTracking()" />
+            <input type="button" value="Stop Continuous Tracking" onclick="stopTracking()" />
+      </div>
+    </section>      
+    
+	<% include partials/footer %>
+    <% include partials/scripts %>
+	
+
+</body>
+</html>

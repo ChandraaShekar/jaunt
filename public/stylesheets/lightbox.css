@@ -1,0 +1,24 @@
+.lightbox{
+    max-width: 40%;
+    height: 40%;
+    background-color: #F2F1EF;
+    margin: 60px auto;
+    box-shadow: 1px 1px 50px #95A5A6;
+    padding: 20px 20px;
+    z-index: 5;
+    display: none;
+}
+
+.title{
+    text-align: center;
+}
+
+.alertp{
+    font-size: 20px;
+    color: #EF4836;
+}
+
+button{
+    float: right;
+    margin-left: 20px;
+}

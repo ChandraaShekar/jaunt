@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include partials/head %>
+</head>
+<body>
+    <% include partials/header-another %>
+    
+    <section class="probootstrap_section">
+            <div class="container" style="width:700px;margin:0px auto;">
+              <div class="row text-center mb-5 probootstrap-animate">
+                <div class="col-md-12">
+                  <h2 class="display-4 border-bottom probootstrap-section-heading">Travel Mates</h2>
+                </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Names </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i=0;i<mates.length;i++){ %>
+                        <tr>
+                            <td><a href="#"><%= mates[i].fullname %></a></td>
+                        </tr>
+                    <% } %>
+
+                    </tbody>
+                </table>
+                </div>
+                </section>
+	<% include partials/footer %>
+    <% include partials/scripts %>
+</body>
+</html>

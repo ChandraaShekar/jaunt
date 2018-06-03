@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include partials/head %>
+</head>
+<body>
+    <% include partials/header-another %>
+    <!-- END nav -->
+
+<section class="probootstrap_section">
+      <div class="container" style="width:700px;margin:0px auto;">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Plan a Trip</h2>
+          </div>
+        </div> 
+        <form method="POST" action="/addtrip">
+  <fieldset>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Trip Name</label>
+      <input type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter TripName" name="trip_name">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Start point</label>
+      <input type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter the starting location" name="from_loc">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Destination</label>
+      <input type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Where do you want to visit" name="to_loc">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">No of people (Optional) </label>
+        <input type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="No of people in trip" name="total_people">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">No of days</label>
+        <input type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="No of planned days" name="total_days">
+      </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </fieldset>
+</form>
+       </div>
+     </section>
+
+
+	<% include partials/footer %>
+    <% include partials/scripts %>
+	
+</body>
+</html>       

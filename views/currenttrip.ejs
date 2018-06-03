@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include partials/head %>
+</head>
+<body>
+    
+    <% include partials/header-another %>
+    <!-- END nav -->
+  <div class="lightbox" id="lightbox">
+    <h1 class="title">ALERT!!</h1>
+    <h3 class="title">Distress</h3>
+    <p class="alertp">Your Friend, <b>Chandu</b> is in a trouble, try go help out.</p>
+    <button value="cancel" class="btn-sm btn-primary">Cancel</button>
+    <button value="ok" class="btn-sm btn-primary" id="ok">OK</button>
+  </div>
+  
+<section class="probootstrap_section">
+      <div class="container" style="width:700px;margin:0px auto;">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Current Trip</h2>
+          </div>
+        </div>
+      <div class="form-group">
+        <fieldset disabled="">
+         <h4>Trip Name</h4>
+          <input class="form-control" id="disabledInput" type="text" value="<%= trip_data[0].trip_name %>" disabled="">
+        </fieldset>
+      </div>
+      <div>
+            <h4>Schedule</h4>
+            <label>Date: 6 April 2018</label>
+            <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="badge badge-primary badge-pill">1:00 pm</span>
+            Lunch
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="badge badge-primary badge-pill">2:00 pm</span>
+            Visit Yadagirigutta
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="badge badge-primary badge-pill">3:30 pm</span>
+            Break
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="badge badge-primary badge-pill">4:00 pm</span>
+            Visit kolanupaka Jain Temple
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="badge badge-primary badge-pill">6:00 pm</span>
+            Hotel Check-in
+          </li>
+          
+        </ul>
+      </div>  
+      <br>
+      <div class="list-group">
+          <h4>Menu</h4>
+          <a href="/directions" class="list-group-item list-group-item-action">
+              Directions
+            </a>
+          <a href="/track" class="list-group-item list-group-item-action">
+            Track Friends
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">Find Nearby
+          </a>
+          <a id="atag" class="list-group-item list-group-item-action">Distress
+          </a>
+        </div>
+      </div>
+      <section class="probootstrap_section" id="distressid" style="display:none;">
+      <div class="container" style="width:700px;margin:0px auto;">
+          <div class="card border-light mb-3" style="max-width: 20rem;">
+            <div class="card-header">Distress</div>
+            <div class="card-body">
+              <h4 class="card-title">By clicking this button you are calling every person in your group for help.</h4>
+              <p class="card-text">Are sure you are distressed ?</p>
+              <form method="POST" action="/trouble">
+                <input type="hidden" name="distress" value="Trouble">
+                <input type="hidden" name="trip_code" value="<%= trip_data[0].url %>">
+
+                <button class="btn btn-primary btn-sm" id="send" name="submit">Yes</button>
+                <button type="button" class="btn btn-primary btn-sm" id="no" onclick="distress()">No</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>    
+</div>
+  </section>
+
+   
+	<% include partials/footer %>
+    <% include partials/scripts %>
+	<script>
+        $(document).ready(function(){
+            $("#atag").click(function(){
+              $("#distressid").show();
+            });
+            $("#no").click(function(){
+              $("#distressid").hide();
+            });
+        });
+</script>
+<script src="/javascripts/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#ok").click(function(){
+      $(".lightbox").hide();
+    });
+  });
+  </script>
+<script id="source" language="javascript" type="text/javascript">
+
+  $(function () 
+  {
+    //-----------------------------------------------------------------------
+    // 2) Send a http request with AJAX http://api.jquery.com/jQuery.ajax/
+    //-----------------------------------------------------------------------
+    $.ajax({ url: '/distress-noti'
+ , type: 'GET'
+//  , dataType: 'text'
+})
+.done(function(data) {
+$('#lightbox').show();
+})
+.fail(function() {
+console.log("Something went wrong!");
+});
+  }); 
+
+  </script>
+</body>
+</html>        
